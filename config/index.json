@@ -1,0 +1,12 @@
+{
+  "session": {
+    "key": "koa:sess",
+    "maxAge": "session",
+    "overwrite": true,
+    "httpOnly": true,
+    "signed": false,
+    "rolling": false,
+    "renew": false
+  },
+  "upload": "./public/upload"
+}

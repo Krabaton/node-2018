@@ -1,0 +1,32 @@
+[
+  {
+    "name": "loftblog",
+    "link": "loftblog.ru",
+    "desc": "Сайт с уроками по web разработке",
+    "picture": "/img/work/loftblog.jpg"
+  },
+  {
+    "name": "itloft",
+    "link": "itloft.ru",
+    "desc": "Сайт агенства интернет решений itloft",
+    "picture": "/img/work/itloft.jpg"
+  },
+  {
+    "name": "landing",
+    "link": "landing.kiev.ua",
+    "desc": "Сайт по разработке лендингов с гарантией",
+    "picture": "/img/work/landingsloft.jpg"
+  },
+  {
+    "name": "Личный сайт",
+    "link": "kovalchuk.us",
+    "desc": "Личный сайт Дмитрия Ковальчука",
+    "picture": "/img/work/kovalchuk.png"
+  },
+  {
+    "name": "loftschool",
+    "link": "loftschool.com",
+    "desc": "Школа онлайн образования",
+    "picture": "/img/work/loftschool.png"
+  }
+]
