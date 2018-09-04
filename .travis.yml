@@ -11,6 +11,6 @@ deploy:
     secure: $he
   strategy: git
   app:
-    master: node-04
+    master: node-2018
   run:
     - restart
