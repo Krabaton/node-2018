@@ -8,5 +8,20 @@
     "rolling": false,
     "renew": false
   },
-  "upload": "./public/upload"
+  "upload": "./public/upload",
+  "storage": {
+    "accessKey": "Ul9K44SLb4C4OQnIRweo6ipZuXWF1fSJWdM+tZ9mi62qIYavW91qgvmbGcmLgul1UsxIOkw2HDKAszAe9ZLjhg==",
+    "storageAccount": "kuchmafile",
+    "endpoint": "https://kuchmafile.blob.core.windows.net/",
+    "questionsImagesContainerName": "works",
+    "maxAvatarFileSize": 2048,
+    "maxCodeFileSize": 500
+  },
+  "mssql": {
+    "host": "kuchma.database.windows.net",
+    "user": "kuchma",
+    "database": "sqlnode",
+    "password": "digiCode2019",
+    "connectionLimit": 20
+  }
 }

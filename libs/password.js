@@ -1,6 +1,6 @@
 const crypto = require('crypto')
 
-const db = require('../models/db')
+const db = require('../models/_db-LowDB')
 
 module.exports.setPassword = (password) => {
   const salt = crypto

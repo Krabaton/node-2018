@@ -1,7 +1,26 @@
-const low = require('lowdb')
-const FileSync = require('lowdb/adapters/FileSync')
+const config = require('../config/index');
 
-const adapter = new FileSync('./models/db.json')
-const db = low(adapter)
+const environment = {
+    client: 'mssql',
+    connection: {
+        host: config.mssql.host,
+        user: config.mssql.user,
+        password: config.mssql.password,
+        database: config.mssql.database,
+        timezone: 'UTC',
+        pool: {
+            min: 5,
+            max: 10,
+        },
+        options: {
+            encrypt: true,
+            database: config.mssql.database,
+        },
+    },
+};
 
-module.exports = db
+console.log(environment);
+
+const knexPool = require('knex')(environment);
+
+module.exports = knexPool;

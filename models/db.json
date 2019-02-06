@@ -35,6 +35,12 @@
       "link": "www.test.com",
       "desc": "Test",
       "picture": "upload\\js.png"
+    },
+    {
+      "name": "test",
+      "link": "test.ua",
+      "desc": "ccc",
+      "picture": "https://kuchmafile.blob.core.windows.net/works/Kuchma_Iurii_s.jpg"
     }
   ],
   "user": {

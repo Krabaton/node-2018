@@ -4,19 +4,25 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
-    "koa-body": "^4.0.4",
+    "azure-storage": "^2.10.2",
+    "knex": "^0.16.3",
     "koa": "^2.5.2",
+    "koa-body": "^4.0.4",
     "koa-pug": "^3.0.0-2",
     "koa-router": "^7.4.0",
     "koa-session": "^5.8.2",
     "koa-static": "^5.0.0",
     "lowdb": "^1.0.0",
-    "pug": "^2.0.3"
+    "mime-types": "^2.1.21",
+    "mssql": "^4.3.1",
+    "pug": "^2.0.3",
+    "streamifier": "^0.1.1"
   },
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-http": "^4.2.0",
     "mocha": "^5.2.0",
+    "prettier": "^1.16.4",
     "request": "^2.88.0"
   },
   "scripts": {
