@@ -1,7 +1,5 @@
 const crypto = require('crypto')
 
-const db = require('../models/db')
-
 module.exports.setPassword = (password) => {
   const salt = crypto
     .randomBytes(16)
