@@ -6,12 +6,13 @@ const psw = require("../libs/password");
 const _path = require("path");
 const rename = util.promisify(fs.rename);
 const unlink = util.promisify(fs.unlink);
-const config = require("../config");
+
 const azure = require("azure-storage");
+require("dotenv").config();
 
 const azureBlobService = azure.createBlobService(
-  config.storage.storageAccount,
-  config.storage.accessKey
+  process.env.STORAGE_ACCOUNT,
+  process.env.STORAGE_ACCESSKEY
 );
 
 module.exports.index = async (ctx, next) => {
@@ -52,14 +53,14 @@ module.exports.uploadWork = async (ctx, next) => {
     }
 
     const response = await uploadLocalFile(
-      config.storage.questionsImagesContainerName,
+      process.env.STORAGE_QIMGCONTAINERNAME,
       name,
       fileName
     );
     await unlink(fileName);
 
-    const urlToInsert = `${config.storage.endpoint}${
-      config.storage.questionsImagesContainerName
+    const urlToInsert = `${process.env.STORAGE_ENDPOINT}${
+      process.env.STORAGE_QIMGCONTAINERNAME
     }/${name}`;
 
     await dbSQL.raw(

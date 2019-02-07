@@ -1,12 +1,12 @@
-const config = require('../config/index');
+require('dotenv').config();
 
 const environment = {
     client: 'mssql',
     connection: {
-        host: config.mssql.host,
-        user: config.mssql.user,
-        password: config.mssql.password,
-        database: config.mssql.database,
+        host: process.env.MSSQL_HOST,
+        user: process.env.MSSQL_USER,
+        password: process.env.MSSQL_PASSWORD,
+        database: process.env.MSSQL_DB,
         timezone: 'UTC',
         pool: {
             min: 5,
@@ -14,7 +14,7 @@ const environment = {
         },
         options: {
             encrypt: true,
-            database: config.mssql.database,
+            database: process.env.MSSQL_DB,
         },
     },
 };
