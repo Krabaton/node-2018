@@ -13,14 +13,14 @@ block content
       .projects-wrapper
         ul.projects-list
           each item in items
-            li.projects-item
+            li.projects-item(data-id=`${item.id}`)
               .hover-img
                 img.project-img(src=`${item.picture}`, alt=`${item.link}`)
                 .zoom-wrapper
-                  a.zoom-link(href=`http://${item.link}/`, target="_blank")= item.name
+                  a.zoom-link(href=`http://${item.link}/`, target="_blank")= item.project_name
               a.project-link(href=`http://${item.link}/`, target="_blank")= item.link
-              .project-desc item.desc
-          
+              .project-desc= item.description
+
           //- Добавить проект
           if authorized
             li.projects-item.add-new-item

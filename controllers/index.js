@@ -1,5 +1,4 @@
 const dbSQL = require("../models/db");
-const db = require("../models/_db-LowDB");
 const fs = require("fs");
 const util = require("util");
 const validation = require("../libs/validation");
@@ -20,53 +19,57 @@ module.exports.index = async (ctx, next) => {
 };
 
 module.exports.myWorks = async (ctx, next) => {
-  const works = db.getState().works || [];
-
-  ctx.render("pages/my-work", {
-    items: works,
-    authorized: ctx.session.isAuthorized
-  });
+  try {
+    const result = await dbSQL.raw("SELECT * FROM Works");
+    ctx.render("pages/my-work", {
+      items: result,
+      authorized: ctx.session.isAuthorized
+    });
+  } catch (e) {
+    next(e);
+  }
 };
 
 module.exports.uploadWork = async (ctx, next) => {
-  const { projectName, projectUrl, text } = ctx.request.body;
-  const { name, size, path } = ctx.request.files.file;
+  try {
+    const { projectName, projectUrl, text } = ctx.request.body;
+    const { name, size, path } = ctx.request.files.file;
 
-  const responseError = validation(projectName, projectUrl, text, name, size);
+    const responseError = validation(projectName, projectUrl, text, name, size);
 
-  if (responseError) {
-    await unlink(path);
-    ctx.body = responseError;
+    if (responseError) {
+      await unlink(path);
+      ctx.body = responseError;
+    }
+
+    let fileName = _path.join(process.cwd(), "public", "upload", name);
+    const errUpload = await rename(path, fileName);
+    if (errUpload) {
+      return (ctx.body = {
+        mes: "При загрузке картинки произошла ошибка",
+        status: "Error"
+      });
+    }
+
+    const response = await uploadLocalFile(
+      config.storage.questionsImagesContainerName,
+      name,
+      fileName
+    );
+    await unlink(fileName);
+
+    const urlToInsert = `${config.storage.endpoint}${
+      config.storage.questionsImagesContainerName
+    }/${name}`;
+
+    await dbSQL.raw(
+      "INSERT INTO Works(project_name, link, description, picture) VALUES (?, ?, ?, ?)",
+      [projectName, projectUrl, text, urlToInsert]
+    );
+    ctx.body = response;
+  } catch (err) {
+    next(err);
   }
-
-  let fileName = _path.join(process.cwd(), "public", "upload", name);
-  const errUpload = await rename(path, fileName);
-  if (errUpload) {
-    return (ctx.body = {
-      mes: "При загрузке картинки произошла ошибка",
-      status: "Error"
-    });
-  }
-
-  const response = await uploadLocalFile(
-    config.storage.questionsImagesContainerName,
-    name,
-    fileName
-  );
-  const urlToInsert = `${config.storage.endpoint}${
-    config.storage.questionsImagesContainerName
-  }/${name}`;
-
-  db.get("works")
-    .push({
-      name: projectName,
-      link: projectUrl,
-      desc: text,
-      picture: urlToInsert
-    })
-    .write();
-
-  ctx.body = response;
 };
 
 module.exports.contactMe = async (ctx, next) => {
