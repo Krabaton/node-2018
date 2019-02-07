@@ -14,6 +14,7 @@ app.use(static('./public'))
 
 app.use(errorHandler)
 app.on('error', (err, ctx) => {
+  console.log('Err: ', err); // TODO in log file
   ctx.render('error', {
     status: ctx.response.status,
     error: ctx.response.message

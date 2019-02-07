@@ -27,7 +27,8 @@ module.exports.myWorks = async (ctx, next) => {
       authorized: ctx.session.isAuthorized
     });
   } catch (e) {
-    next(e);
+    let err = new Error(e.message);
+    throw err;
   }
 };
 
@@ -68,8 +69,9 @@ module.exports.uploadWork = async (ctx, next) => {
       [projectName, projectUrl, text, urlToInsert]
     );
     ctx.body = response;
-  } catch (err) {
-    next(err);
+  } catch (e) {
+    let err = new Error(e.message);
+    throw err;
   }
 };
 
@@ -83,10 +85,13 @@ module.exports.login = async (ctx, next) => {
 
 module.exports.auth = async (ctx, next) => {
   const { login, password } = ctx.request.body;
-  const [err, user] = await to(
+  const [e, user] = await to(
     dbSQL.raw("SELECT login, hash, salt FROM USERS WHERE login = ?", [login])
   );
-  if (err) next(err);
+  if (e) {
+    let err = new Error(e.message);
+    throw err;
+  }
   if (user.length === 0) {
     ctx.body = {
       mes: "User not found",
