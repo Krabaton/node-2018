@@ -1,7 +1,6 @@
-// const db = require('../models/db');
+const dbSQL = require("../models/db");
 const db = require("../models/_db-LowDB");
 const fs = require("fs");
-const streamifier = require("streamifier");
 const util = require("util");
 const validation = require("../libs/validation");
 const psw = require("../libs/password");
@@ -10,7 +9,6 @@ const rename = util.promisify(fs.rename);
 const unlink = util.promisify(fs.unlink);
 const config = require("../config");
 const azure = require("azure-storage");
-const mime = require("mime-types");
 
 const azureBlobService = azure.createBlobService(
   config.storage.storageAccount,
@@ -67,6 +65,7 @@ module.exports.uploadWork = async (ctx, next) => {
       picture: urlToInsert
     })
     .write();
+
   ctx.body = response;
 };
 
@@ -80,10 +79,19 @@ module.exports.login = async (ctx, next) => {
 
 module.exports.auth = async (ctx, next) => {
   const { login, password } = ctx.request.body;
-  console.log(psw.validPassword(password));
-  const user = db.getState().user;
+  const [err, user] = await to(
+    dbSQL.raw("SELECT login, hash, salt FROM USERS WHERE login = ?", [login])
+  );
+  if (err) next(err);
+  if (user.length === 0) {
+    ctx.body = {
+      mes: "User not found",
+      status: "Error"
+    };
+    return;
+  }
 
-  if (user.login === login && psw.validPassword(password)) {
+  if (psw.validPassword(user[0], password)) {
     ctx.session.isAuthorized = true;
     ctx.body = {
       mes: "Done",
@@ -91,7 +99,7 @@ module.exports.auth = async (ctx, next) => {
     };
   } else {
     ctx.body = {
-      mes: "Forbiden",
+      mes: "Incorrect password - forbidden",
       status: "Error"
     };
   }
@@ -120,3 +128,11 @@ const uploadLocalFile = async (containerName, blobName, fullPath) => {
     );
   });
 };
+
+function to(promise) {
+  return promise
+    .then(data => {
+      return [null, data];
+    })
+    .catch(err => [err]);
+}

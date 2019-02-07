@@ -19,8 +19,6 @@ const environment = {
     },
 };
 
-console.log(environment);
-
 const knexPool = require('knex')(environment);
 
 module.exports = knexPool;
