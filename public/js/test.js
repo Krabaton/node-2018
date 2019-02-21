@@ -3,15 +3,8 @@ if ('ga' in window) {
   if (tracker) {
     const btn = document.getElementById('test');
     btn.addEventListener('click', e => {
-      tracker.send({
-        hitType: 'event',
-        eventCategory: 'Phone',
-        eventAction: 'add',
-        eventLabel: 'add phone',
-        hitCallback: function() {
-          console.log('send event');
-        },
-      });
+      console.log('click');
+      tracker.send('event', 'Phone', 'add', '0501111111');
     });
   }
 }
