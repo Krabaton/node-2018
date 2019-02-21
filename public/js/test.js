@@ -1,4 +1,5 @@
 if ('ga' in window) {
+  console.log('in');
   tracker = ga.getAll()[0];
   if (tracker) {
     const btn = document.getElementById('test');
