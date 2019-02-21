@@ -12,6 +12,9 @@ script.
     hitType: 'event',
     eventCategory: 'Phone',
     eventAction: 'add',
-    eventLabel: 'add phone'
+    eventLabel: 'add phone',
+    hitCallback: function() {
+      console.log('send event');
+    }
   })
 

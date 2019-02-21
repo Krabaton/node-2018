@@ -37,7 +37,8 @@ block content
           //-   input.input.input-captcha.pull-right(type="text", name="captcha", placeholder="Введите код" qtip-position="right" qtip-content="Вы не ввели код")           
           //- Отправить 
           .button-group
-            button.btn(type="submit") Отправить
+            button.btn(type="submit" ) Отправить
+            button.btn(type="button" onclick="ga('send', 'event', 'button', 'click', 'Show the phone number');") Send
             button.btn.btn-res(type="reset") Очистить
 
                              
